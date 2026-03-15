@@ -1,7 +1,5 @@
-// API Base URL matches your Java backend
 const API_URL = 'http://localhost:7070/api';
 
-// Toggle between Login and Register views
 function toggleAuth() {
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
@@ -19,10 +17,8 @@ function toggleAuth() {
     }
 }
 
-// Handle Login
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent page reload
-
+    e.preventDefault();
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
     const messageDiv = document.getElementById('loginMessage');
@@ -39,15 +35,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         if (response.ok) {
             messageDiv.textContent = "Success! Redirecting...";
             messageDiv.className = "message success-msg";
-
-            // In industry, we save session data to LocalStorage
             localStorage.setItem('currentUser', username);
             localStorage.setItem('userRole', data.role);
-
-            // Redirect to dashboard (we will build this next)
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1000);
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
         } else {
             messageDiv.textContent = data.error || "Login failed.";
             messageDiv.className = "message error-msg";
@@ -58,10 +48,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
-// Handle Registration
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const username = document.getElementById('regUsername').value;
     const password = document.getElementById('regPassword').value;
     const role = document.getElementById('regRole').value;
@@ -79,7 +67,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         if (response.ok) {
             messageDiv.textContent = "Account created! Please log in.";
             messageDiv.className = "message success-msg";
-            setTimeout(toggleAuth, 1500); // Switch to login screen
+            setTimeout(toggleAuth, 1500);
         } else {
             messageDiv.textContent = data.error || "Registration failed.";
             messageDiv.className = "message error-msg";

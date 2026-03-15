@@ -45,7 +45,7 @@ async function wipeDatabase() {
         try {
             await fetch(`${API_URL}/admin/wipe`, { method: 'DELETE' });
             showToast("System purged successfully.");
-            setTimeout(() => location.reload(), 1500); // Reload the whole page to clear memory
+            setTimeout(() => location.reload(), 1500);
         } catch (e) { showToast("Failed to wipe database.", true); }
     }
 }
@@ -156,6 +156,11 @@ async function drop(ev, newStatus) {
 function closeModals() {
     document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
 }
+
+// ---> THE BUG FIX <---
+document.getElementById('showProjectModalBtn').onclick = () => {
+    document.getElementById('projectModal').classList.remove('hidden');
+};
 
 document.getElementById('projectForm').onsubmit = async (e) => {
     e.preventDefault();
