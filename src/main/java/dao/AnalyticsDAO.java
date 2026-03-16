@@ -30,20 +30,20 @@ public class AnalyticsDAO {
         return metrics;
     }
 
-    // NEW: Smart Recommendation Engine
-    // Logic: Finds users with the fewest "In Progress" tasks
+    
+    
     public Map<String, Object> getWorkloadRecommendation(String projectId) {
         Map<String, Integer> userScores = new HashMap<>();
 
-        // Get all tasks that aren't completed
+        
         for (Document task : taskCollection.find(new Document("projectId", projectId))) {
             String assignee = task.getString("assignedTo");
             String status = task.getString("status");
-            int weight = status.equals("In Progress") ? 3 : 1; // Heavy weight for active work
+            int weight = status.equals("In Progress") ? 3 : 1; 
             userScores.put(assignee, userScores.getOrDefault(assignee, 0) + weight);
         }
 
-        // Find the user with the minimum weight
+        
         String recommended = userScores.entrySet().stream()
                 .min(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)

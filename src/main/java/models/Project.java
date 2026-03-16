@@ -8,8 +8,8 @@ public class Project {
     private String description;
     private String managerUsername;
     private List<String> teamMembers;
-    private String deadline; // Format: YYYY-MM-DD
-    private String status; // e.g., "Planning", "Active", "Completed"
+    private String deadline; 
+    private String status; 
 
     public Project() {}
 

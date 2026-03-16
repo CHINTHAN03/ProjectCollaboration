@@ -42,7 +42,7 @@ public class ProjectDAO {
                 Document doc = cursor.next();
                 Project p = new Project();
 
-                // MongoDB automatically generates an _id. We convert it to a string for our Java object.
+                
                 p.setId(doc.getObjectId("_id").toString());
                 p.setName(doc.getString("name"));
                 p.setDescription(doc.getString("description"));

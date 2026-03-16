@@ -67,36 +67,36 @@ public class TaskDAO {
         }
     }
 
-    // --- THE INTELLIGENCE ENGINE: Smart Workload Balancer ---
+    
     public String recommendAssignee(String projectId) {
-        // 1. Get the project to find all valid team members
+        
         Document project = projectCollection.find(new Document("_id", new ObjectId(projectId))).first();
         if (project == null) return "Unassigned";
 
         List<String> teamMembers = project.getList("teamMembers", String.class);
         if (teamMembers == null || teamMembers.isEmpty()) return "Unassigned";
 
-        // 2. Map everyone's active workload (excluding Completed tasks)
+        
         Map<String, Integer> workloadMap = new HashMap<>();
         for (String member : teamMembers) {
-            workloadMap.put(member, 0); // Initialize everyone at 0
+            workloadMap.put(member, 0); 
         }
 
         Document query = new Document("projectId", projectId)
-                .append("status", new Document("$ne", "Completed")); // $ne means Not Equal
+                .append("status", new Document("$ne", "Completed")); 
 
         try (MongoCursor<Document> cursor = collection.find(query).iterator()) {
             while (cursor.hasNext()) {
                 String assignee = cursor.next().getString("assignedTo");
                 if (workloadMap.containsKey(assignee)) {
-                    // For every active task they have, add 1 point of workload.
-                    // High priority tasks could be weighted heavier here in the future.
+                    
+                    
                     workloadMap.put(assignee, workloadMap.get(assignee) + 1);
                 }
             }
         }
 
-        // 3. Find the developer with the lowest workload
+        
         String recommendedUser = teamMembers.get(0);
         int lowestWorkload = Integer.MAX_VALUE;
 

@@ -34,7 +34,7 @@ public class CommentDAO {
 
     public List<Comment> getCommentsByTaskId(String taskId) {
         List<Comment> comments = new ArrayList<>();
-        // Fetch comments and sort them by timestamp (oldest first)
+        
         try (MongoCursor<Document> cursor = collection.find(new Document("taskId", taskId))
                 .sort(new Document("timestamp", 1)).iterator()) {
             while (cursor.hasNext()) {

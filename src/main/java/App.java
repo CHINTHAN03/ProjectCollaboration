@@ -13,13 +13,13 @@ public class App {
         TaskDAO taskDAO = new TaskDAO();
         AnalyticsDAO analyticsDAO = new AnalyticsDAO();
         CommentDAO commentDAO = new CommentDAO();
-        AdminDAO adminDAO = new AdminDAO(); // NEW
+        AdminDAO adminDAO = new AdminDAO(); 
 
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> cors.addRule(it -> it.anyHost()));
         }).start(7070);
 
-        // --- USERS ---
+        
         app.post("/api/register", ctx -> {
             User newUser = ctx.bodyAsClass(User.class);
             if (userDAO.registerUser(newUser)) ctx.status(201).json("{\"message\": \"Success\"}");
@@ -33,7 +33,7 @@ public class App {
             else ctx.status(401).json("{\"error\": \"Invalid credentials\"}");
         });
 
-        // --- PROJECTS ---
+        
         app.post("/api/projects", ctx -> {
             Project p = ctx.bodyAsClass(Project.class);
             if (projectDAO.createProject(p)) ctx.status(201).json("{\"message\": \"Success\"}");
@@ -42,7 +42,7 @@ public class App {
 
         app.get("/api/projects", ctx -> ctx.status(200).json(projectDAO.getAllProjects()));
 
-        // --- TASKS ---
+        
         app.post("/api/tasks", ctx -> {
             Task t = ctx.bodyAsClass(Task.class);
             if (taskDAO.createTask(t)) ctx.status(201).json("{\"message\": \"Success\"}");
@@ -59,13 +59,13 @@ public class App {
             else ctx.status(500).json("{\"error\": \"Failed\"}");
         });
 
-        // --- INTELLIGENCE ENGINE ---
+        
         app.get("/api/projects/{projectId}/recommend", ctx -> {
             String recommendedAssignee = taskDAO.recommendAssignee(ctx.pathParam("projectId"));
             ctx.status(200).json("{\"recommendedUser\": \"" + recommendedAssignee + "\"}");
         });
 
-        // --- COMMENTS ---
+        
         app.post("/api/tasks/{taskId}/comments", ctx -> {
             Comment c = ctx.bodyAsClass(Comment.class);
             c.setTaskId(ctx.pathParam("taskId"));
@@ -77,12 +77,12 @@ public class App {
             ctx.status(200).json(commentDAO.getCommentsByTaskId(ctx.pathParam("taskId")));
         });
 
-        // --- ANALYTICS ---
+        
         app.get("/api/projects/{projectId}/analytics", ctx -> {
             ctx.status(200).json(analyticsDAO.getProjectMetrics(ctx.pathParam("projectId")));
         });
 
-        // --- ADMIN SECURE ROUTES (NEW) ---
+        
         app.delete("/api/admin/wipe", ctx -> {
             if (adminDAO.wipeWorkspace()) ctx.status(200).json("{\"message\": \"Workspace heavily purged.\"}");
             else ctx.status(500).json("{\"error\": \"Wipe failed.\"}");

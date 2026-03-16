@@ -2,12 +2,12 @@ package models;
 
 public class Task {
     private String id;
-    private String projectId; // Links the task to a specific project
+    private String projectId; 
     private String title;
     private String description;
-    private String assignedTo; // Username of the developer
-    private String status; // e.g., "Backlog", "To Do", "In Progress", "Review", "Completed"
-    private String priority; // e.g., "Low", "Medium", "High"
+    private String assignedTo; 
+    private String status; 
+    private String priority; 
 
     public Task() {}
 

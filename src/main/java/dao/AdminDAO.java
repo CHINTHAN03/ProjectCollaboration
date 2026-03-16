@@ -16,7 +16,7 @@ public class AdminDAO {
         this.database = DatabaseConnection.getDatabase();
     }
 
-    // Wipes all project, task, and comment data, but leaves users intact
+    
     public boolean wipeWorkspace() {
         try {
             database.getCollection("projects").drop();

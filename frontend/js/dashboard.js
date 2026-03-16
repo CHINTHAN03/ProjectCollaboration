@@ -6,12 +6,12 @@ const userRole = localStorage.getItem('userRole');
 if (!currentUser) window.location.href = 'index.html';
 document.getElementById('welcomeMessage').textContent = `User: ${currentUser} | Role: ${userRole}`;
 
-// --- ROLE BASED ACCESS CONTROL (RBAC) ---
+
 if (userRole === "Admin") {
     document.getElementById('adminBtn').classList.remove('hidden');
 }
 if (userRole === "Developer") {
-    document.getElementById('showProjectModalBtn').classList.add('hidden'); // Devs can't create projects
+    document.getElementById('showProjectModalBtn').classList.add('hidden');
 }
 
 function logout() {
@@ -34,7 +34,7 @@ function showToast(message, isError = false) {
     setTimeout(() => { toast.remove(); }, 3000);
 }
 
-// --- Admin Console Logic ---
+
 async function openAdminConsole() {
     document.getElementById('adminModal').classList.remove('hidden');
     loadAdminUsers();
@@ -77,7 +77,7 @@ async function deleteUser(username) {
     }
 }
 
-// --- Projects & Analytics ---
+
 async function loadProjects() {
     const res = await fetch(`${API_URL}/projects`);
     const projects = await res.json();
@@ -108,7 +108,7 @@ async function loadAnalytics() {
     document.getElementById('statPercentage').textContent = `${metrics.completionPercentage}% Complete`;
 }
 
-// --- Tasks ---
+
 async function loadTasks() {
     if (!currentProjectId) return;
     const res = await fetch(`${API_URL}/projects/${currentProjectId}/tasks`);
@@ -152,12 +152,12 @@ async function drop(ev, newStatus) {
     loadAnalytics();
 }
 
-// --- Forms & Intelligence Engine ---
+
 function closeModals() {
     document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
 }
 
-// ---> THE BUG FIX <---
+
 document.getElementById('showProjectModalBtn').onclick = () => {
     document.getElementById('projectModal').classList.remove('hidden');
 };
@@ -172,7 +172,7 @@ document.getElementById('projectForm').onsubmit = async (e) => {
             description: document.getElementById('projDesc').value,
             deadline: document.getElementById('projDeadline').value,
             managerUsername: currentUser,
-            teamMembers: [currentUser], // In a real app, this would be a multi-select dropdown
+            teamMembers: [currentUser],
             status: "Active"
         })
     });
@@ -209,7 +209,7 @@ document.getElementById('taskForm').onsubmit = async (e) => {
     closeModals(); e.target.reset(); loadTasks(); loadAnalytics(); showToast("Task Created!");
 };
 
-// --- Task Details & Comments ---
+
 function openTaskDetails(task) {
     currentTask = task;
     document.getElementById('panelTaskTitle').textContent = task.title;
